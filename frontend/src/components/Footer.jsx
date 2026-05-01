@@ -25,8 +25,8 @@ export default function Footer() {
         <div style={styles.col}>
           <h4 style={styles.colTitle}>Contact</h4>
           <p style={styles.link}>support@driveease.com</p>
-          <p style={styles.link}>+91 98765 43210</p>
-          <p style={styles.link}>Bangalore, India</p>
+          <p style={styles.link}>+91 7892554221</p>
+          <p style={styles.link}>BTM Layout Bangalore, India 560001</p>
         </div>
       </div>
       <div style={styles.bottom}>

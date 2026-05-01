@@ -68,7 +68,7 @@ export default function PaymentModal({ isOpen, amount, carTitle, onSuccess, onCa
 
               <div style={styles.securityNote}>
                 <p style={styles.securityText}>
-                  This is a demonstration. No actual payment will be processed. The payment details will be recorded and sent to the car owner.
+                  This is a just a demonstration. No actual payment will be processed. The payment details will be recorded and sent to the car owner.
                 </p>
               </div>
 
