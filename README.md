@@ -4,8 +4,8 @@ A full-stack MERN car rental application where users can list, browse, and book 
 
 ## Tech Stack
 
-- **Frontend**: React + Vite (port 5173)
-- **Backend**: Node.js + Express.js (port 5050)
+- **Frontend**: React + Vite
+- **Backend**: Node.js + Express.js
 - **Database**: MongoDB
 - **Authentication**: JWT + bcryptjs
 
