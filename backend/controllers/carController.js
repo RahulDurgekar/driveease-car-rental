@@ -3,7 +3,7 @@ import Booking from "../models/Booking.js";
 
 export const createCar = async (req, res) => {
   try {
-    const images = req.files ? req.files.map((f) => `/uploads/${f.filename}`) : [];
+    const images = req.files ? req.files.map((f) => `http://localhost:5050/uploads/${f.filename}`) : [];
     const car = await Car.create({ ...req.body, owner: req.user._id, images });
     res.status(201).json(car);
   } catch (err) {
@@ -73,7 +73,7 @@ export const updateCar = async (req, res) => {
     if (!car) return res.status(404).json({ message: "Car not found" });
     if (car.owner.toString() !== req.user._id.toString())
       return res.status(403).json({ message: "Not authorized" });
-    const updated = await Car.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updated = await Car.findByIdAndUpdate(req.params.id, req.body, { returnDocument: "after" });
     res.json(updated);
   } catch (err) {
     res.status(500).json({ message: err.message || "Failed to update car" });

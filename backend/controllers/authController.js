@@ -66,7 +66,7 @@ export const updateProfile = async (req, res) => {
     if (req.file)
       updateData.avatar = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
     const user = await User.findByIdAndUpdate(req.user._id, updateData, {
-      new: true,
+      returnDocument: "after",
       runValidators: true,
     }).select("-password");
     res.json(user);
