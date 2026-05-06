@@ -1,9 +1,31 @@
 import Car from "../models/Car.js";
 import Booking from "../models/Booking.js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import sharp from "sharp";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const createCar = async (req, res) => {
   try {
-    const images = req.files ? req.files.map((f) => `http://localhost:5050/uploads/${f.filename}`) : [];
+    const images = [];
+    
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const compressedBuffer = await sharp(file.path)
+          .resize(800, 600, { fit: 'inside', withoutEnlargement: true })
+          .jpeg({ quality: 80 })
+          .toBuffer();
+        
+        images.push({
+          data: compressedBuffer,
+          contentType: 'image/jpeg'
+        });
+        fs.unlinkSync(file.path);
+      }
+    }
+    
     const car = await Car.create({ ...req.body, owner: req.user._id, images });
     res.status(201).json(car);
   } catch (err) {

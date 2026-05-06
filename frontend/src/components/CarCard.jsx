@@ -4,7 +4,6 @@ import StarRating from "./StarRating";
 export default function CarCard({ car, selectedStartDate, selectedEndDate }) {
   const img = car.images?.[0] || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600";
 
-  // Build URL with date params
   const detailUrl = selectedStartDate && selectedEndDate
     ? `/cars/${car._id}?startDate=${selectedStartDate}&endDate=${selectedEndDate}`
     : `/cars/${car._id}`;
@@ -12,7 +11,11 @@ export default function CarCard({ car, selectedStartDate, selectedEndDate }) {
   return (
     <div className="card" style={styles.card}>
       <div style={styles.imgWrap}>
-        <img src={img} alt={car.title} style={styles.img} />
+        <img 
+          src={img} 
+          alt={car.title} 
+          style={styles.img}
+        />
         <span className={`badge ${car.available ? "badge-green" : "badge-red"}`} style={styles.badge}>
           {car.available ? "Available" : "Unavailable"}
         </span>
@@ -57,7 +60,7 @@ export default function CarCard({ car, selectedStartDate, selectedEndDate }) {
 
 const styles = {
   card: { display: "flex", flexDirection: "column" },
-  imgWrap: { position: "relative" },
+  imgWrap: { position: "relative", background: "var(--dark)" },
   img: { width: "100%", height: "196px", objectFit: "cover", display: "block" },
   badge: { position: "absolute", top: "10px", right: "10px" },
   body: { padding: "16px", display: "flex", flexDirection: "column", gap: "8px", flex: 1 },
