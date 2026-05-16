@@ -9,26 +9,18 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const createCar = async (req, res) => {
   try {
-    const images = [];
-    
-    if (req.files && req.files.length > 0) {
-      for (const file of req.files) {
-        const compressedBuffer = await sharp(file.path)
-          .resize(800, 600, { fit: 'inside', withoutEnlargement: true })
-          .jpeg({ quality: 80 })
-          .toBuffer();
-        
-        images.push({
-          data: compressedBuffer,
-          contentType: 'image/jpeg'
-        });
-        fs.unlinkSync(file.path);
-      }
-    }
-    
+    console.log('Files received:', req.files);
+    const images = req.files ? req.files.map((f) => {
+      const imagePath = `/uploads/${f.filename}`;
+      console.log('Image path created:', imagePath);
+      return imagePath;
+    }) : [];
+    console.log('Final images array:', images);
     const car = await Car.create({ ...req.body, owner: req.user._id, images });
+    console.log('Car created with images:', car.images);
     res.status(201).json(car);
   } catch (err) {
+    console.error('Error creating car:', err);
     res.status(500).json({ message: err.message || "Failed to create car" });
   }
 };

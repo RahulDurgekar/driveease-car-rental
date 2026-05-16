@@ -10,6 +10,12 @@ export default function MyGarage() {
     api.get("/cars/my").then((r) => setCars(r.data)).finally(() => setLoading(false));
   }, []);
 
+  const getImageUrl = (image) => {
+    if (!image) return "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400";
+    if (image.startsWith("data:") || image.startsWith("http")) return image;
+    return `http://localhost:5050${image}`;
+  };
+
   const toggleAvail = async (id) => {
     const { data } = await api.patch(`/cars/${id}/toggle`);
     setCars((prev) => prev.map((c) => c._id === id ? { ...c, available: data.available } : c));
@@ -43,9 +49,13 @@ export default function MyGarage() {
           {cars.map((car) => (
             <div key={car._id} className="card" style={styles.card}>
               <img
-                src={car.images?.[0] || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400"}
+                src={getImageUrl(car.images?.[0])}
                 alt={car.title}
                 style={styles.img}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400";
+                }}
               />
               <div style={styles.body}>
                 <h3 style={styles.title}>{car.title}</h3>

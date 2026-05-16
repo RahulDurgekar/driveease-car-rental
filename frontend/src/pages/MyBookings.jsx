@@ -10,6 +10,12 @@ export default function MyBookings() {
     api.get("/bookings/my").then((r) => setBookings(r.data)).finally(() => setLoading(false));
   }, []);
 
+  const getImageUrl = (image) => {
+    if (!image) return "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=200";
+    if (image.startsWith("data:") || image.startsWith("http")) return image;
+    return `http://localhost:5050${image}`;
+  };
+
   const cancelBooking = async (id) => {
     if (!window.confirm("Cancel this booking?")) return;
     await api.patch(`/bookings/${id}/status`, { status: "cancelled" });
@@ -33,9 +39,13 @@ export default function MyBookings() {
           {bookings.map((b) => (
             <div key={b._id} style={styles.card}>
               <img
-                src={b.car?.images?.[0] || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=200"}
+                src={getImageUrl(b.car?.images?.[0])}
                 alt=""
                 style={styles.img}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=200";
+                }}
               />
               <div style={styles.info}>
                 <h3 style={styles.carName}>{b.car?.title}</h3>

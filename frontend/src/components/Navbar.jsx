@@ -57,7 +57,15 @@ export default function Navbar() {
 
             <div style={styles.dropdown}>
               <button style={styles.avatarBtn} onClick={() => setMenuOpen(!menuOpen)}>
-                {user.avatar ? <img src={user.avatar} alt="Avatar" style={styles.avatarImg} /> : user.name?.charAt(0).toUpperCase()}
+                {user.avatar ? (
+                  <img 
+                    src={user.avatar.startsWith("http") || user.avatar.startsWith("data:") ? user.avatar : `http://localhost:5050${user.avatar}`} 
+                    alt="Avatar" 
+                    style={styles.avatarImg} 
+                  />
+                ) : (
+                  user.name?.charAt(0).toUpperCase()
+                )}
               </button>
               {menuOpen && (
                 <div style={styles.dropMenu}>

@@ -1,9 +1,11 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import api from "../utils/api";
 
 export default function PostCar() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [form, setForm] = useState({
     title: "", brand: "", model: "", year: "", city: "",
     pricePerDay: "", description: "", fuelType: "Petrol",
@@ -13,6 +15,17 @@ export default function PostCar() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const fileRef = useRef();
+
+  useEffect(() => {
+    if (user) {
+      setForm(prev => ({
+        ...prev,
+        city: user.city || "",
+        contactPhone: user.phone || "",
+        contactEmail: user.email || "",
+      }));
+    }
+  }, [user]);
 
   const set = (key, value) => {
     setForm(prev => ({ ...prev, [key]: value }));

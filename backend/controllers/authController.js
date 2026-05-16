@@ -63,8 +63,9 @@ export const updateProfile = async (req, res) => {
   try {
     const { name, phone, city, address, role } = req.body;
     const updateData = { name, phone, city, address, role };
-    if (req.file)
-      updateData.avatar = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+    if (req.file) {
+      updateData.avatar = `/uploads/${req.file.filename}`;
+    }
     const user = await User.findByIdAndUpdate(req.user._id, updateData, {
       returnDocument: "after",
       runValidators: true,

@@ -10,10 +10,7 @@ const carSchema = new mongoose.Schema(
     city: { type: String, required: true },
     pricePerDay: { type: Number, required: true },
     description: { type: String, default: "" },
-    images: [{ 
-      data: { type: Buffer, required: true },
-      contentType: { type: String, required: true }
-    }],
+    images: [{ type: String }],
     fuelType: { type: String, enum: ["Petrol", "Diesel", "Electric", "Hybrid"], default: "Petrol" },
     transmission: { type: String, enum: ["Manual", "Automatic"], default: "Manual" },
     seats: { type: Number, default: 5 },
@@ -25,18 +22,5 @@ const carSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-carSchema.methods.toJSON = function() {
-  const car = this.toObject();
-  if (car.images && car.images.length > 0) {
-    car.images = car.images.map(img => {
-      if (img.data && img.contentType) {
-        return `data:${img.contentType};base64,${img.data.toString('base64')}`;
-      }
-      return img;
-    });
-  }
-  return car;
-};
 
 export default mongoose.model("Car", carSchema);

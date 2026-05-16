@@ -5,15 +5,16 @@ import api from "../utils/api";
 import Footer from "../components/Footer";
 
 export default function CarListing() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [city, setCity] = useState(searchParams.get("city") || "");
   const [filterCity, setFilterCity] = useState(searchParams.get("city") || "");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [selectedStartDate, setSelectedStartDate] = useState("");
-  const [selectedEndDate, setSelectedEndDate] = useState("");
+  const [startDate, setStartDate] = useState(searchParams.get("startDate") || "");
+  const [endDate, setEndDate] = useState(searchParams.get("endDate") || "");
+  const [selectedStartDate, setSelectedStartDate] = useState(searchParams.get("startDate") || "");
+  const [selectedEndDate, setSelectedEndDate] = useState(searchParams.get("endDate") || "");
+  const [sortOrder, setSortOrder] = useState("");
 
   useEffect(() => {
     fetchCars();
@@ -41,6 +42,13 @@ export default function CarListing() {
     setFilterCity(city);
     setSelectedStartDate(startDate);
     setSelectedEndDate(endDate);
+    
+    // Update URL params to persist filters
+    const params = new URLSearchParams();
+    if (city) params.set("city", city);
+    if (startDate) params.set("startDate", startDate);
+    if (endDate) params.set("endDate", endDate);
+    setSearchParams(params);
   };
 
   const handleClear = () => {
@@ -50,7 +58,15 @@ export default function CarListing() {
     setEndDate("");
     setSelectedStartDate("");
     setSelectedEndDate("");
+    setSortOrder("");
+    setSearchParams({});
   };
+
+  const sortedCars = [...cars].sort((a, b) => {
+    if (sortOrder === "low") return a.pricePerDay - b.pricePerDay;
+    if (sortOrder === "high") return b.pricePerDay - a.pricePerDay;
+    return 0;
+  });
 
   return (
     <>
@@ -95,6 +111,14 @@ export default function CarListing() {
                 style={styles.filterInput}
               />
             </div>
+            <div style={styles.filterGroup}>
+              <label style={styles.filterLabel}>Sort by Price</label>
+              <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} style={styles.filterInput}>
+                <option value="">Default</option>
+                <option value="low">Low to High</option>
+                <option value="high">High to Low</option>
+              </select>
+            </div>
             <div style={styles.filterActions}>
               <button className="btn-primary" onClick={handleSearch}>Search</button>
               {(filterCity || selectedStartDate || selectedEndDate) && (
@@ -120,7 +144,7 @@ export default function CarListing() {
           </div>
         ) : (
           <div style={styles.grid}>
-            {cars.map((car) => (
+            {sortedCars.map((car) => (
               <CarCard
                 key={car._id}
                 car={car}

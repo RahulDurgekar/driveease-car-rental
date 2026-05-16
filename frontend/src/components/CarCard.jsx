@@ -2,7 +2,25 @@ import { Link } from "react-router-dom";
 import StarRating from "./StarRating";
 
 export default function CarCard({ car, selectedStartDate, selectedEndDate }) {
-  const img = car.images?.[0] || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600";
+  const getImageUrl = (image) => {
+    console.log('CarCard - Original image:', image);
+    if (!image) {
+      console.log('CarCard - No image, using default');
+      return "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600";
+    }
+    // If it's already a data URL (base64) or external URL, use as is
+    if (image.startsWith("data:") || image.startsWith("http")) {
+      console.log('CarCard - Using image as is:', image.substring(0, 50));
+      return image;
+    }
+    // If it's a file path, prepend backend URL
+    const fullUrl = `http://localhost:5050${image}`;
+    console.log('CarCard - Full URL:', fullUrl);
+    return fullUrl;
+  };
+
+  const img = getImageUrl(car.images?.[0]);
+  console.log('CarCard - Final img src:', img);
 
   const detailUrl = selectedStartDate && selectedEndDate
     ? `/cars/${car._id}?startDate=${selectedStartDate}&endDate=${selectedEndDate}`
@@ -15,6 +33,10 @@ export default function CarCard({ car, selectedStartDate, selectedEndDate }) {
           src={img} 
           alt={car.title} 
           style={styles.img}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600";
+          }}
         />
         <span className={`badge ${car.available ? "badge-green" : "badge-red"}`} style={styles.badge}>
           {car.available ? "Available" : "Unavailable"}

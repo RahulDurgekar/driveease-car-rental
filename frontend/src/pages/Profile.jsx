@@ -5,6 +5,8 @@ import api from "../utils/api";
 export default function Profile() {
   const { user, setUser } = useAuth();
   const [form, setForm] = useState({ name: "", phone: "", city: "", address: "", avatar: "", role: "user" });
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState("");
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,8 +21,22 @@ export default function Profile() {
         avatar: user.avatar || "",
         role: user.role || "user",
       });
+      if (user.avatar) {
+        const avatarUrl = user.avatar.startsWith("http") || user.avatar.startsWith("data:") 
+          ? user.avatar 
+          : `http://localhost:5050${user.avatar}`;
+        setAvatarPreview(avatarUrl);
+      }
     }
   }, [user]);
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAvatarFile(file);
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +44,18 @@ export default function Profile() {
     setError("");
     setLoading(true);
     try {
-      const { data } = await api.put("/auth/profile", form);
+      const formData = new FormData();
+      formData.append("name", form.name);
+      formData.append("phone", form.phone);
+      formData.append("city", form.city);
+      formData.append("address", form.address);
+      formData.append("role", form.role);
+      if (avatarFile) {
+        formData.append("avatar", avatarFile);
+      }
+      const { data } = await api.put("/auth/profile", formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
       setUser(data);
       setMsg("Profile updated successfully!");
     } catch (err) {
@@ -41,7 +68,13 @@ export default function Profile() {
   return (
     <div className="page-container" style={{ maxWidth: "600px" }}>
       <div style={styles.header}>
-        <div style={styles.avatar}>{user?.name?.charAt(0).toUpperCase()}</div>
+        <div style={styles.avatar}>
+          {avatarPreview ? (
+            <img src={avatarPreview} alt="Avatar" style={styles.avatarImg} />
+          ) : (
+            user?.name?.charAt(0).toUpperCase()
+          )}
+        </div>
         <div>
           <h2 className="section-title" style={{ marginBottom: "4px" }}>My <span>Profile</span></h2>
           <p style={{ color: "var(--text-muted)", fontSize: "0.88rem" }}>{user?.email}</p>
@@ -80,8 +113,11 @@ export default function Profile() {
         </div>
 
         <div className="form-group">
-          <label>Avatar URL</label>
-          <input placeholder="https://..." value={form.avatar} onChange={(e) => setForm({ ...form, avatar: e.target.value })} />
+          <label>Profile Picture</label>
+          <input type="file" accept="image/*" onChange={handleAvatarChange} />
+          <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "4px" }}>
+            Upload your profile picture
+          </p>
         </div>
 
         <div className="form-group">
@@ -112,7 +148,8 @@ const styles = {
     width: "60px", height: "60px", borderRadius: "50%",
     background: "var(--accent)", color: "var(--black)",
     display: "flex", alignItems: "center", justifyContent: "center",
-    fontSize: "1.6rem", fontWeight: 800, flexShrink: 0,
+    fontSize: "1.6rem", fontWeight: 800, flexShrink: 0, overflow: "hidden",
   },
+  avatarImg: { width: "100%", height: "100%", objectFit: "cover" },
   form: { background: "var(--card-bg)", border: "1px solid var(--border)", borderRadius: "8px", padding: "28px" },
 };

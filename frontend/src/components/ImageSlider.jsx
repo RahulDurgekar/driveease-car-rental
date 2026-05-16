@@ -2,11 +2,28 @@ import { useState } from "react";
 
 export default function ImageSlider({ images = [] }) {
   const [current, setCurrent] = useState(0);
-  const list = images.length ? images : ["https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800"];
+  
+  const getImageUrl = (image) => {
+    if (!image) return "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800";
+    // If it's already a data URL (base64) or external URL, use as is
+    if (image.startsWith("data:") || image.startsWith("http")) return image;
+    // If it's a file path, prepend backend URL
+    return `http://localhost:5050${image}`;
+  };
+  
+  const list = images.length ? images.map(getImageUrl) : ["https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800"];
 
   return (
     <div style={styles.wrapper}>
-      <img src={list[current]} alt="car" style={styles.img} />
+      <img 
+        src={list[current]} 
+        alt="car" 
+        style={styles.img}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800";
+        }}
+      />
       {list.length > 1 && (
         <>
           <button
