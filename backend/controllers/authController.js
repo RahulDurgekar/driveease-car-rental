@@ -9,21 +9,31 @@ const signToken = (id) => jwt.sign({ id }, JWT_SECRET, { expiresIn: "7d" });
 
 export const signup = async (req, res) => {
   try {
+    console.log('Signup attempt - Request body:', req.body);
     const { name, email, password } = req.body;
-    if (!name || !email || !password)
+    if (!name || !email || !password) {
+      console.log('Missing fields:', { name: !!name, email: !!email, password: !!password });
       return res.status(400).json({ message: "All fields required" });
+    }
 
     const trimmedEmail = email.trim().toLowerCase();
+    console.log('Checking if email exists:', trimmedEmail);
     const exists = await User.findOne({ email: trimmedEmail });
-    if (exists) return res.status(400).json({ message: "Email already registered" });
+    if (exists) {
+      console.log('Email already exists');
+      return res.status(400).json({ message: "Email already registered" });
+    }
 
+    console.log('Creating new user...');
     const user = await User.create({ name: name.trim(), email: trimmedEmail, password });
+    console.log('User created successfully:', user._id);
     res.status(201).json({
       token: signToken(user._id),
       user: { _id: user._id, name: user.name, email: user.email, role: user.role },
     });
   } catch (err) {
     console.error("Signup error:", err.message);
+    console.error("Full error:", err);
     res.status(500).json({ message: err.message || "Signup failed" });
   }
 };

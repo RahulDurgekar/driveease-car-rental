@@ -3,6 +3,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import api from "../utils/api";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || "http://localhost:5050";
+
 const BellIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
     fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -59,7 +61,7 @@ export default function Navbar() {
               <button style={styles.avatarBtn} onClick={() => setMenuOpen(!menuOpen)}>
                 {user.avatar ? (
                   <img 
-                    src={user.avatar.startsWith("http") || user.avatar.startsWith("data:") ? user.avatar : `http://localhost:5050${user.avatar}`} 
+                    src={user.avatar.startsWith("http") || user.avatar.startsWith("data:") ? user.avatar : `${API_BASE_URL}${user.avatar}`} 
                     alt="Avatar" 
                     style={styles.avatarImg} 
                   />

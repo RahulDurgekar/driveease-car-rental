@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import StarRating from "./StarRating";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || "http://localhost:5050";
+
 export default function CarCard({ car, selectedStartDate, selectedEndDate }) {
   const getImageUrl = (image) => {
     console.log('CarCard - Original image:', image);
@@ -14,7 +16,7 @@ export default function CarCard({ car, selectedStartDate, selectedEndDate }) {
       return image;
     }
     // If it's a file path, prepend backend URL
-    const fullUrl = `http://localhost:5050${image}`;
+    const fullUrl = `${API_BASE_URL}${image}`;
     console.log('CarCard - Full URL:', fullUrl);
     return fullUrl;
   };

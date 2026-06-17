@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../utils/api";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || "http://localhost:5050";
+
 export default function MyBookings() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +15,7 @@ export default function MyBookings() {
   const getImageUrl = (image) => {
     if (!image) return "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=200";
     if (image.startsWith("data:") || image.startsWith("http")) return image;
-    return `http://localhost:5050${image}`;
+    return `${API_BASE_URL}${image}`;
   };
 
   const cancelBooking = async (id) => {

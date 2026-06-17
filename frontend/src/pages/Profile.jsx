@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import api from "../utils/api";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || "http://localhost:5050";
+
 export default function Profile() {
   const { user, setUser } = useAuth();
   const [form, setForm] = useState({ name: "", phone: "", city: "", address: "", avatar: "", role: "user" });
@@ -24,7 +26,7 @@ export default function Profile() {
       if (user.avatar) {
         const avatarUrl = user.avatar.startsWith("http") || user.avatar.startsWith("data:") 
           ? user.avatar 
-          : `http://localhost:5050${user.avatar}`;
+          : `${API_BASE_URL}${user.avatar}`;
         setAvatarPreview(avatarUrl);
       }
     }

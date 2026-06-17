@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || "http://localhost:5050";
+
 export default function ImageSlider({ images = [] }) {
   const [current, setCurrent] = useState(0);
   
@@ -8,7 +10,7 @@ export default function ImageSlider({ images = [] }) {
     // If it's already a data URL (base64) or external URL, use as is
     if (image.startsWith("data:") || image.startsWith("http")) return image;
     // If it's a file path, prepend backend URL
-    return `http://localhost:5050${image}`;
+    return `${API_BASE_URL}${image}`;
   };
   
   const list = images.length ? images.map(getImageUrl) : ["https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800"];
