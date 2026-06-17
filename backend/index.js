@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import fs from "fs";
+import mongoose from "mongoose";
 import { config } from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -30,6 +31,14 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/reviews", reviewRoutes);
 
 app.get("/", (req, res) => res.json({ message: "Car Rental API running" }));
+
+app.get("/api/health", (req, res) => {
+  res.json({ 
+    status: "ok", 
+    mongodb: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+    timestamp: new Date().toISOString()
+  });
+});
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
