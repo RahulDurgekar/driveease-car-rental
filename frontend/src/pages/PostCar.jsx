@@ -76,13 +76,13 @@ export default function PostCar() {
           </div>
           <div className="form-group">
             <label>Year</label>
-            <input type="number" placeholder="2020" value={form.year} onChange={(e) => set("year", e.target.value)} required />
+            <input type="number" min="1900" max={new Date().getFullYear() + 1} placeholder="2020" value={form.year} onChange={(e) => set("year", e.target.value)} required />
           </div>
         </div>
         <div style={styles.row}>
           <div className="form-group">
             <label>Price Per Day (₹)</label>
-            <input type="number" placeholder="1500" value={form.pricePerDay} onChange={(e) => set("pricePerDay", e.target.value)} required />
+            <input type="number" min="1" placeholder="1500" value={form.pricePerDay} onChange={(e) => set("pricePerDay", e.target.value)} required />
           </div>
           <div className="form-group">
             <label>Fuel Type</label>

@@ -37,8 +37,15 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    
+    // Password validation
     if (form.password !== form.confirm) return setError("Passwords do not match");
-    if (form.password.length < 6) return setError("Password must be at least 6 characters");
+    if (form.password.length < 8) return setError("Password must be at least 8 characters long");
+    if (!/[A-Z]/.test(form.password)) return setError("Password must contain at least one uppercase letter");
+    if (!/[a-z]/.test(form.password)) return setError("Password must contain at least one lowercase letter");
+    if (!/\d/.test(form.password)) return setError("Password must contain at least one number");
+    if (!/[@$!%*?&#]/.test(form.password)) return setError("Password must contain at least one special character (@$!%*?&#)");
+    
     setLoading(true);
     try {
       const { data } = await api.post("/auth/signup", {
@@ -92,7 +99,7 @@ export default function Signup() {
             <div style={styles.inputWrap}>
               <input
                 type={show.password ? "text" : "password"}
-                placeholder="Minimum 6 characters"
+                placeholder="Min 8 chars, 1 uppercase, 1 number, 1 special char"
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 style={{ paddingRight: "44px" }}
@@ -102,6 +109,9 @@ export default function Signup() {
                 {show.password ? <EyeOffIcon /> : <EyeIcon />}
               </button>
             </div>
+            <small style={{ color: "var(--text-muted)", fontSize: "0.75rem", display: "block", marginTop: "4px" }}>
+              Must contain: 8+ characters, uppercase, lowercase, number, special char (@$!%*?&#)
+            </small>
           </div>
           <div className="form-group">
             <label>Confirm Password</label>
