@@ -5,24 +5,18 @@ const API_BASE_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || "http:
 
 export default function CarCard({ car, selectedStartDate, selectedEndDate }) {
   const getImageUrl = (image) => {
-    console.log('CarCard - Original image:', image);
     if (!image) {
-      console.log('CarCard - No image, using default');
       return "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600";
     }
-    // If it's already a data URL (base64) or external URL, use as is
+    // If it's already a full URL (Cloudinary, base64, or external), use as is
     if (image.startsWith("data:") || image.startsWith("http")) {
-      console.log('CarCard - Using image as is:', image.substring(0, 50));
       return image;
     }
-    // If it's a file path, prepend backend URL
-    const fullUrl = `${API_BASE_URL}${image}`;
-    console.log('CarCard - Full URL:', fullUrl);
-    return fullUrl;
+    // Legacy: If it's a file path, prepend backend URL
+    return `${API_BASE_URL}${image}`;
   };
 
   const img = getImageUrl(car.images?.[0]);
-  console.log('CarCard - Final img src:', img);
 
   const detailUrl = selectedStartDate && selectedEndDate
     ? `/cars/${car._id}?startDate=${selectedStartDate}&endDate=${selectedEndDate}`

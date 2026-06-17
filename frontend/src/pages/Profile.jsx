@@ -24,6 +24,7 @@ export default function Profile() {
         role: user.role || "user",
       });
       if (user.avatar) {
+        // Cloudinary URLs and data URLs work as-is
         const avatarUrl = user.avatar.startsWith("http") || user.avatar.startsWith("data:") 
           ? user.avatar 
           : `${API_BASE_URL}${user.avatar}`;

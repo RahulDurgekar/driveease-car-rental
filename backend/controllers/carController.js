@@ -1,17 +1,21 @@
 import Car from "../models/Car.js";
 import Booking from "../models/Booking.js";
+import cloudinary from "../config/cloudinary.js";
+import fs from "fs";
 
 export const createCar = async (req, res) => {
   try {
-    console.log('Files received:', req.files);
-    const images = req.files ? req.files.map((f) => {
-      const imagePath = `/uploads/${f.filename}`;
-      console.log('Image path created:', imagePath);
-      return imagePath;
-    }) : [];
-    console.log('Final images array:', images);
+    const images = [];
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const result = await cloudinary.uploader.upload(file.path, {
+          folder: 'driveease/cars',
+        });
+        images.push(result.secure_url);
+        fs.unlinkSync(file.path);
+      }
+    }
     const car = await Car.create({ ...req.body, owner: req.user._id, images });
-    console.log('Car created with images:', car.images);
     res.status(201).json(car);
   } catch (err) {
     console.error('Error creating car:', err);

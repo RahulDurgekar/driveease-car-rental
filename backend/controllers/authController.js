@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { config } from "dotenv";
+import cloudinary from "../config/cloudinary.js";
+import fs from "fs";
 
 config();
 
@@ -74,7 +76,11 @@ export const updateProfile = async (req, res) => {
     const { name, phone, city, address, role } = req.body;
     const updateData = { name, phone, city, address, role };
     if (req.file) {
-      updateData.avatar = `/uploads/${req.file.filename}`;
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'driveease/avatars',
+      });
+      updateData.avatar = result.secure_url;
+      fs.unlinkSync(req.file.path);
     }
     const user = await User.findByIdAndUpdate(req.user._id, updateData, {
       returnDocument: "after",

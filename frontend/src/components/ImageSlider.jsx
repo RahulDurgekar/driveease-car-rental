@@ -7,9 +7,9 @@ export default function ImageSlider({ images = [] }) {
   
   const getImageUrl = (image) => {
     if (!image) return "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800";
-    // If it's already a data URL (base64) or external URL, use as is
+    // If it's already a full URL (Cloudinary, base64, or external), use as is
     if (image.startsWith("data:") || image.startsWith("http")) return image;
-    // If it's a file path, prepend backend URL
+    // Legacy: If it's a file path, prepend backend URL
     return `${API_BASE_URL}${image}`;
   };
   
