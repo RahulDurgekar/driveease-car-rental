@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
-
-const BG = "/src/assets/car-bg.png";
+import carBg from "../assets/car-bg.png";
 
 export default function Home() {
   const [city, setCity] = useState("");
@@ -15,7 +14,7 @@ export default function Home() {
 
   return (
     <>
-      <section style={{ ...styles.hero, backgroundImage: `url(${BG})` }}>
+      <section style={{ ...styles.hero, backgroundImage: `url(${carBg})` }}>
         <div style={styles.overlay} />
         <div style={styles.heroContent}>
           <p style={styles.heroSub}>Premium Car Rental Service</p>
