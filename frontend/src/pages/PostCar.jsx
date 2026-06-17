@@ -13,6 +13,7 @@ export default function PostCar() {
     contactPhone: "", contactEmail: "",
   });
   const [error, setError] = useState("");
+  const [priceError, setPriceError] = useState("");
   const [loading, setLoading] = useState(false);
   const fileRef = useRef();
 
@@ -29,11 +30,23 @@ export default function PostCar() {
 
   const set = (key, value) => {
     setForm(prev => ({ ...prev, [key]: value }));
+    // Clear price error when user changes price
+    if (key === 'pricePerDay') {
+      setPriceError("");
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setPriceError("");
+    
+    // Validate price
+    if (!form.pricePerDay || form.pricePerDay <= 0) {
+      setPriceError("Price cannot be negative or zero. Please enter a valid daily rental price.");
+      return;
+    }
+    
     setLoading(true);
     try {
       const formData = new FormData();
@@ -55,7 +68,7 @@ export default function PostCar() {
       <h2 className="section-title">Post Your <span>Car</span></h2>
       <div className="divider" />
       <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.row}>
+        <div style={styles.row} className="form-row">
           <div className="form-group">
             <label>Listing Title</label>
             <input placeholder="e.g. Clean Swift for City Rides" value={form.title} onChange={(e) => set("title", e.target.value)} required />
@@ -65,7 +78,7 @@ export default function PostCar() {
             <input placeholder="e.g. Bangalore" value={form.city} onChange={(e) => set("city", e.target.value)} required />
           </div>
         </div>
-        <div style={styles.row}>
+        <div style={styles.row} className="form-row">
           <div className="form-group">
             <label>Brand</label>
             <input placeholder="e.g. Maruti" value={form.brand} onChange={(e) => set("brand", e.target.value)} required />
@@ -79,10 +92,11 @@ export default function PostCar() {
             <input type="number" min="1900" max={new Date().getFullYear() + 1} placeholder="2020" value={form.year} onChange={(e) => set("year", e.target.value)} required />
           </div>
         </div>
-        <div style={styles.row}>
+        <div style={styles.row} className="form-row">
           <div className="form-group">
             <label>Price Per Day (₹)</label>
-            <input type="number" min="1" placeholder="1500" value={form.pricePerDay} onChange={(e) => set("pricePerDay", e.target.value)} required />
+            <input type="number" min="1" step="1" placeholder="1500" value={form.pricePerDay} onChange={(e) => set("pricePerDay", e.target.value)} required />
+            {priceError && <p className="error-msg" style={{ marginTop: '4px' }}>{priceError}</p>}
           </div>
           <div className="form-group">
             <label>Fuel Type</label>
@@ -106,7 +120,7 @@ export default function PostCar() {
           <label>Description</label>
           <textarea rows={3} placeholder="Describe your car..." value={form.description} onChange={(e) => set("description", e.target.value)} />
         </div>
-        <div style={styles.row}>
+        <div style={styles.row} className="form-row">
           <div className="form-group">
             <label>Contact Phone</label>
             <input placeholder="+91 98765 43210" value={form.contactPhone} onChange={(e) => set("contactPhone", e.target.value)} required />

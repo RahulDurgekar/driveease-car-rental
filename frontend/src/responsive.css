@@ -1,0 +1,57 @@
+/* Responsive Styles for Components */
+
+/* Navbar Responsive */
+@media (max-width: 768px) {
+  nav .desktop-links {
+    display: none !important;
+  }
+  nav .mobile-menu-btn {
+    display: block !important;
+  }
+  nav {
+    padding: 0 20px !important;
+  }
+}
+
+/* Home Page Hero Responsive */
+@media (max-width: 768px) {
+  .hero-content {
+    padding: 0 24px !important;
+  }
+  .stats-bar {
+    grid-template-columns: repeat(2, 1fr) !important;
+    padding: 20px 24px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content {
+    padding: 0 16px !important;
+  }
+  .stats-bar {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 16px;
+  }
+}
+
+/* CarDetail Grid Responsive */
+@media (max-width: 1024px) {
+  .car-detail-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+}
+
+/* Form Rows Responsive */
+@media (max-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Modal Responsive */
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 20px !important;
+  }
+}

@@ -4,6 +4,7 @@ import ImageSlider from "../components/ImageSlider";
 import StarRating from "../components/StarRating";
 import ReviewCard from "../components/ReviewCard";
 import PaymentModal from "../components/PaymentModal";
+import BookingConfirmModal from "../components/BookingConfirmModal";
 import { useAuth } from "../context/AuthContext";
 import api from "../utils/api";
 import Footer from "../components/Footer";
@@ -24,6 +25,7 @@ export default function CarDetail() {
   const [processingPayment, setProcessingPayment] = useState(false);
   const [dateCheckErr, setDateCheckErr] = useState("");
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     api.get(`/cars/${id}`).then((r) => setCar(r.data));
@@ -53,7 +55,7 @@ export default function CarDetail() {
       return;
     }
 
-    // Check availability one more time before opening payment modal
+    // Check availability one more time before opening confirmation modal
     try {
       const { data } = await api.get("/cars/check/availability", {
         params: {
@@ -71,8 +73,17 @@ export default function CarDetail() {
       console.error("Availability check error:", err);
     }
 
-    // Open payment modal
+    // Open confirmation modal first
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmBooking = () => {
+    setShowConfirmModal(false);
     setShowPaymentModal(true);
+  };
+
+  const handleCancelConfirmation = () => {
+    setShowConfirmModal(false);
   };
 
   const handlePaymentSuccess = async (transactionId) => {
@@ -124,6 +135,14 @@ export default function CarDetail() {
 
   return (
     <>
+      <BookingConfirmModal
+        isOpen={showConfirmModal}
+        booking={booking}
+        car={car}
+        onConfirm={handleConfirmBooking}
+        onCancel={handleCancelConfirmation}
+      />
+      
       <PaymentModal
         isOpen={showPaymentModal}
         amount={totalPrice}
@@ -134,7 +153,7 @@ export default function CarDetail() {
       />
 
       <div className="page-container">
-        <div style={styles.grid}>
+        <div style={styles.grid} className="car-detail-grid">
           <div>
             <ImageSlider images={car.images} />
             <div style={styles.metaRow}>
@@ -278,7 +297,12 @@ export default function CarDetail() {
 }
 
 const styles = {
-  grid: { display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: "40px", alignItems: "start" },
+  grid: { 
+    display: "grid", 
+    gridTemplateColumns: "1.2fr 0.8fr", 
+    gap: "40px", 
+    alignItems: "start",
+  },
   metaRow: { display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "14px", marginBottom: "14px" },
   metaTag: {
     background: "var(--card-bg)", border: "1px solid var(--border)",

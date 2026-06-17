@@ -19,6 +19,7 @@ export default function Navbar() {
   const location = useLocation();
   const [notifCount, setNotifCount] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -34,12 +35,37 @@ export default function Navbar() {
     <nav style={styles.nav}>
       <Link to="/" style={styles.logo}>DriveEase</Link>
 
-      <div style={styles.links}>
+      <div style={styles.links} className="desktop-links">
         <Link to="/" style={styles.link}>Home</Link>
         <Link to="/cars" style={styles.link}>Browse Cars</Link>
         <Link to="/about" style={styles.link}>About</Link>
         <Link to="/contact" style={styles.link}>Contact</Link>
       </div>
+
+      <button 
+        style={styles.mobileMenuBtn}
+        className="mobile-menu-btn"
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+      >
+        ☰
+      </button>
+
+      {mobileMenuOpen && (
+        <div style={styles.mobileMenu}>
+          <Link to="/" style={styles.mobileLink} onClick={() => setMobileMenuOpen(false)}>Home</Link>
+          <Link to="/cars" style={styles.mobileLink} onClick={() => setMobileMenuOpen(false)}>Browse Cars</Link>
+          <Link to="/about" style={styles.mobileLink} onClick={() => setMobileMenuOpen(false)}>About</Link>
+          <Link to="/contact" style={styles.mobileLink} onClick={() => setMobileMenuOpen(false)}>Contact</Link>
+          {user && (
+            <>
+              <Link to="/profile" style={styles.mobileLink} onClick={() => setMobileMenuOpen(false)}>Profile</Link>
+              <Link to="/my-garage" style={styles.mobileLink} onClick={() => setMobileMenuOpen(false)}>My Garage</Link>
+              <Link to="/my-bookings" style={styles.mobileLink} onClick={() => setMobileMenuOpen(false)}>My Bookings</Link>
+              <Link to="/notifications" style={styles.mobileLink} onClick={() => setMobileMenuOpen(false)}>Notifications</Link>
+            </>
+          )}
+        </div>
+      )}
 
       <div style={styles.actions}>
         {user ? (
@@ -139,5 +165,34 @@ const styles = {
     display: "block", width: "100%", padding: "10px 16px",
     background: "none", border: "none", color: "#c97070",
     fontSize: "0.86rem", textAlign: "left", cursor: "pointer",
+  },
+  mobileMenuBtn: {
+    display: "none",
+    background: "none",
+    border: "none",
+    color: "var(--accent)",
+    fontSize: "1.5rem",
+    cursor: "pointer",
+    padding: "5px 10px",
+  },
+  mobileMenu: {
+    position: "fixed",
+    top: "62px",
+    left: 0,
+    right: 0,
+    background: "var(--card-bg)",
+    borderBottom: "1px solid var(--border)",
+    padding: "16px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px",
+    zIndex: 99,
+  },
+  mobileLink: {
+    color: "var(--text)",
+    fontSize: "0.9rem",
+    padding: "8px 12px",
+    borderRadius: "4px",
+    transition: "background 0.2s",
   },
 };
