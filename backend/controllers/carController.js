@@ -1,11 +1,5 @@
 import Car from "../models/Car.js";
 import Booking from "../models/Booking.js";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-import sharp from "sharp";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const createCar = async (req, res) => {
   try {
