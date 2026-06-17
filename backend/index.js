@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import fs from "fs";
 import mongoose from "mongoose";
 import { config } from "dotenv";
 import connectDB from "./config/db.js";
@@ -13,7 +12,6 @@ config();
 
 const app = express();
 connectDB();
-fs.mkdirSync("uploads", { recursive: true });
 
 app.use(cors({ 
   origin: ["http://localhost:5173", "http://localhost:5174", process.env.FRONTEND_URL].filter(Boolean),
