@@ -12,8 +12,8 @@ export default function About() {
       </div>
 
       <div className="page-container">
-        <div style={styles.missionGrid}>
-          <div>
+        <div style={styles.missionGrid} className="about-mission-grid">
+          <div className="about-mission-text">
             <h2 className="section-title">Our <span>Mission</span></h2>
             <div className="divider" />
             <p style={styles.text}>
@@ -26,7 +26,7 @@ export default function About() {
               drive every interaction on our platform.
             </p>
           </div>
-          <div style={styles.statsGrid}>
+          <div style={styles.statsGrid} className="about-stats-grid">
             {[["500+", "Cars"], ["10,000+", "Renters"], ["50+", "Cities"], ["4.8", "Rating"]].map(([n, l]) => (
               <div key={l} style={styles.statCard}>
                 <h3 style={styles.statNum}>{n}</h3>
@@ -74,7 +74,7 @@ const styles = {
   },
   heroTitle: { fontSize: "2.6rem", fontWeight: 800, color: "var(--white)", marginBottom: "10px" },
   heroSub: { color: "var(--text-muted)", fontSize: "1rem" },
-  missionGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "56px", alignItems: "center" },
+  missionGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "56px", alignItems: "center", '@media (max-width: 768px)': { gridTemplateColumns: "1fr" } },
   text: { color: "var(--text-muted)", lineHeight: 1.8, marginBottom: "16px", fontSize: "0.93rem" },
   statsGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px" },
   statCard: {

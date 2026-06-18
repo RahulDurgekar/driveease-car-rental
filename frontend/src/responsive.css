@@ -89,3 +89,33 @@
     padding: 20px !important;
   }
 }
+
+/* About Page - Mobile Reordering */
+@media (max-width: 768px) {
+  .about-mission-grid {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .about-mission-text {
+    order: 1;
+  }
+  .about-stats-grid {
+    order: 2;
+    margin-top: 24px;
+  }
+}
+
+/* Contact Page - Mobile Reordering */
+@media (max-width: 768px) {
+  .contact-grid {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .contact-form {
+    order: 1;
+  }
+  .contact-info {
+    order: 2;
+    margin-top: 32px;
+  }
+}

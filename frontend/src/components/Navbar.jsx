@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import api from "../utils/api";
@@ -20,6 +20,7 @@ export default function Navbar() {
   const [notifCount, setNotifCount] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     if (user) {
@@ -28,6 +29,23 @@ export default function Navbar() {
         .catch(() => {});
     }
   }, [user, location.pathname]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen]);
 
   const handleLogout = () => { logout(); navigate("/"); };
 
@@ -84,7 +102,7 @@ export default function Navbar() {
               {notifCount > 0 && <span style={styles.notifBadge}>{notifCount}</span>}
             </Link>
 
-            <div style={styles.dropdown}>
+            <div style={styles.dropdown} ref={dropdownRef}>
               <button style={styles.avatarBtn} onClick={() => setMenuOpen(!menuOpen)} aria-label="User menu">
                 {user.avatar ? (
                   <img 

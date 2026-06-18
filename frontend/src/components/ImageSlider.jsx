@@ -59,8 +59,8 @@ export default function ImageSlider({ images = [] }) {
 }
 
 const styles = {
-  wrapper: { position: "relative", borderRadius: "8px", overflow: "hidden", background: "var(--card-bg)" },
-  img: { width: "100%", height: "370px", objectFit: "cover", display: "block" },
+  wrapper: { position: "relative", borderRadius: "8px", overflow: "hidden", background: "var(--card-bg)", aspectRatio: "16/9" },
+  img: { width: "100%", height: "100%", objectFit: "cover", display: "block" },
   arrow: {
     position: "absolute", top: "50%", transform: "translateY(-50%)",
     background: "rgba(0,0,0,0.55)", color: "var(--white)", border: "none",

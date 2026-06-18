@@ -43,8 +43,8 @@ export default function Contact() {
       </div>
 
       <div className="page-container">
-        <div style={styles.grid}>
-          <div>
+        <div style={styles.grid} className="contact-grid">
+          <div className="contact-form">
             <h2 className="section-title">Send Us a <span>Message</span></h2>
             <div className="divider" />
             {sent ? (
@@ -78,7 +78,7 @@ export default function Contact() {
             )}
           </div>
 
-          <div>
+          <div className="contact-info">
             <h2 className="section-title">Contact <span>Info</span></h2>
             <div className="divider" />
             {contactInfo.map((c) => (
@@ -119,7 +119,7 @@ const styles = {
   },
   heroTitle: { fontSize: "2.4rem", fontWeight: 800, color: "var(--white)", marginBottom: "10px" },
   heroSub: { color: "var(--text-muted)", fontSize: "0.95rem" },
-  grid: { display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: "56px" },
+  grid: { display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: "56px", '@media (max-width: 768px)': { gridTemplateColumns: "1fr" } },
   successBox: {
     background: "var(--card-bg)", border: "1px solid var(--accent)",
     borderRadius: "8px", padding: "32px", textAlign: "center",
