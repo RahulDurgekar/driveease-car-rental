@@ -7,9 +7,23 @@
   }
   nav .mobile-menu-btn {
     display: block !important;
+    position: absolute;
+    right: 60px;
   }
   nav {
     padding: 0 20px !important;
+  }
+}
+
+/* Footer Responsive */
+@media (max-width: 768px) {
+  footer > div:first-child {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .footer-quick-links,
+  .footer-account {
+    display: none !important;
   }
 }
 

@@ -164,23 +164,70 @@ const styles = {
   header: {
     height: "210px",
     background: "linear-gradient(135deg, var(--dark) 0%, var(--bg) 100%)",
-    display: "flex", alignItems: "center", padding: "0 48px",
-    position: "relative", borderBottom: "1px solid var(--border)",
+    display: "flex", 
+    alignItems: "center", 
+    padding: "0 48px",
+    position: "relative", 
+    borderBottom: "1px solid var(--border)",
   },
   overlay: {
-    position: "absolute", inset: 0,
+    position: "absolute", 
+    inset: 0,
     pointerEvents: "none",
     background: "radial-gradient(circle at 20% 50%, rgba(200,169,110,0.05) 0%, transparent 60%)",
   },
-  title: { fontSize: "2.2rem", fontWeight: 800, color: "var(--white)", marginBottom: "6px" },
-  sub: { color: "var(--text-muted)", fontSize: "0.9rem" },
-  filterSection: { marginBottom: "32px" },
-  filterRow: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "12px", marginBottom: "12px" },
-  filterGroup: { display: "flex", flexDirection: "column", gap: "4px" },
-  filterLabel: { fontSize: "0.75rem", color: "var(--text-muted)", fontWeight: 600, letterSpacing: "0.3px", textTransform: "uppercase" },
+  title: { 
+    fontSize: "2.2rem", 
+    fontWeight: 800, 
+    color: "var(--white)", 
+    marginBottom: "6px" 
+  },
+  sub: { 
+    color: "var(--text-muted)", 
+    fontSize: "0.9rem" 
+  },
+  filterSection: { 
+    marginBottom: "32px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px",
+  },
+  filterRow: { 
+    display: "grid", 
+    gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", 
+    gap: "12px",
+  },
+  filterGroup: { 
+    display: "flex", 
+    flexDirection: "column", 
+    gap: "4px" 
+  },
+  filterLabel: { 
+    fontSize: "0.75rem", 
+    color: "var(--text-muted)", 
+    fontWeight: 600, 
+    letterSpacing: "0.3px", 
+    textTransform: "uppercase" 
+  },
   filterInput: { height: "40px" },
-  filterActions: { display: "flex", gap: "8px", alignItems: "flex-end" },
-  count: { color: "var(--text-muted)", fontSize: "0.85rem" },
-  grid: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "22px" },
-  center: { textAlign: "center", color: "var(--text-muted)", padding: "60px 0" },
+  filterActions: { 
+    display: "flex", 
+    gap: "8px", 
+    alignItems: "flex-end",
+    flexWrap: "wrap",
+  },
+  count: { 
+    color: "var(--text-muted)", 
+    fontSize: "0.85rem" 
+  },
+  grid: { 
+    display: "grid", 
+    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", 
+    gap: "22px" 
+  },
+  center: { 
+    textAlign: "center", 
+    color: "var(--text-muted)", 
+    padding: "60px 0" 
+  },
 };

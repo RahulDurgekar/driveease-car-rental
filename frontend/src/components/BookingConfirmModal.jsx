@@ -86,6 +86,9 @@ const styles = {
     width: '100%',
     maxHeight: '90vh',
     overflowY: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0',
   },
   title: {
     fontSize: '1.4rem',
@@ -99,11 +102,15 @@ const styles = {
     background: 'var(--accent)',
     marginBottom: '24px',
     borderRadius: '2px',
+    flexShrink: 0,
   },
   section: {
     marginBottom: '16px',
     paddingBottom: '16px',
     borderBottom: '1px solid var(--border)',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
   },
   label: {
     fontSize: '0.75rem',
@@ -111,7 +118,6 @@ const styles = {
     fontWeight: 600,
     textTransform: 'uppercase',
     letterSpacing: '0.8px',
-    marginBottom: '6px',
   },
   value: {
     fontSize: '0.95rem',
@@ -122,6 +128,9 @@ const styles = {
     marginBottom: '24px',
     paddingBottom: '16px',
     borderBottom: '2px solid var(--accent)',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
   },
   price: {
     fontSize: '1.8rem',
@@ -131,5 +140,6 @@ const styles = {
   buttons: {
     display: 'flex',
     gap: '12px',
+    flexWrap: 'wrap',
   },
 };

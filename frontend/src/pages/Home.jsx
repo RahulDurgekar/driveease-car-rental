@@ -101,52 +101,139 @@ const steps = [
 
 const styles = {
   hero: {
-    minHeight: "92vh", backgroundSize: "cover", backgroundPosition: "center",
-    display: "flex", alignItems: "center", position: "relative",
+    minHeight: "92vh", 
+    backgroundSize: "cover", 
+    backgroundPosition: "center",
+    display: "flex", 
+    alignItems: "center", 
+    position: "relative",
   },
   overlay: {
-    position: "absolute", inset: 0,
+    position: "absolute", 
+    inset: 0,
     pointerEvents: "none",
     background: "linear-gradient(120deg, rgba(14,14,14,0.88) 0%, rgba(14,14,14,0.55) 100%)",
   },
-  heroContent: { position: "relative", zIndex: 1, maxWidth: "640px", padding: "0 48px" },
+  heroContent: { 
+    position: "relative", 
+    zIndex: 1, 
+    maxWidth: "640px", 
+    padding: "0 48px" 
+  },
   heroSub: {
-    color: "var(--accent)", fontWeight: 600, letterSpacing: "2.5px",
-    fontSize: "0.78rem", textTransform: "uppercase", marginBottom: "14px",
+    color: "var(--accent)", 
+    fontWeight: 600, 
+    letterSpacing: "2.5px",
+    fontSize: "0.78rem", 
+    textTransform: "uppercase", 
+    marginBottom: "14px",
   },
   heroTitle: {
-    fontSize: "clamp(2rem, 5vw, 3.6rem)", fontWeight: 800,
-    color: "var(--white)", lineHeight: 1.15, marginBottom: "16px",
+    fontSize: "clamp(2rem, 5vw, 3.6rem)", 
+    fontWeight: 800,
+    color: "var(--white)", 
+    lineHeight: 1.15, 
+    marginBottom: "16px",
   },
-  heroDesc: { color: "var(--text-muted)", fontSize: "1rem", marginBottom: "32px", lineHeight: 1.75 },
-  searchBar: { display: "flex", maxWidth: "460px" },
+  heroDesc: { 
+    color: "var(--text-muted)", 
+    fontSize: "1rem", 
+    marginBottom: "32px", 
+    lineHeight: 1.75 
+  },
+  searchBar: { 
+    display: "flex", 
+    maxWidth: "460px",
+    gap: 0,
+  },
   searchInput: {
-    borderRadius: "6px 0 0 6px", border: "1px solid var(--accent)",
-    borderRight: "none", flex: 1, height: "44px",
+    borderRadius: "6px 0 0 6px", 
+    border: "1px solid var(--accent)",
+    borderRight: "none", 
+    flex: 1, 
+    height: "44px",
   },
   statsBar: {
-    display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
-    background: "var(--accent)", padding: "24px 48px",
+    display: "grid", 
+    gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+    background: "var(--accent)", 
+    padding: "24px 48px",
+    gap: "16px",
   },
-  statItem: { textAlign: "center" },
-  statNum: { fontSize: "1.7rem", fontWeight: 800, color: "var(--black)" },
-  statLabel: { fontSize: "0.8rem", color: "var(--black)", fontWeight: 500, marginTop: "2px" },
+  statItem: { 
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  statNum: { 
+    fontSize: "1.7rem", 
+    fontWeight: 800, 
+    color: "var(--black)" 
+  },
+  statLabel: { 
+    fontSize: "0.8rem", 
+    color: "var(--black)", 
+    fontWeight: 500, 
+    marginTop: "2px" 
+  },
   section: { padding: "64px 0" },
-  grid3: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "18px" },
-  featureCard: {
-    background: "var(--card-bg)", border: "1px solid var(--border)",
-    borderRadius: "8px", padding: "24px 22px",
+  grid3: { 
+    display: "grid", 
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", 
+    gap: "18px" 
   },
-  featureNum: { fontSize: "0.75rem", color: "var(--accent)", fontWeight: 700, letterSpacing: "1px", marginBottom: "10px" },
-  featureTitle: { color: "var(--white)", fontWeight: 600, marginBottom: "8px", fontSize: "0.95rem" },
-  featureDesc: { color: "var(--text-muted)", fontSize: "0.86rem", lineHeight: 1.65 },
-  steps: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "24px" },
-  step: { textAlign: "center", padding: "28px 20px" },
+  featureCard: {
+    background: "var(--card-bg)", 
+    border: "1px solid var(--border)",
+    borderRadius: "8px", 
+    padding: "24px 22px",
+    display: "flex",
+    flexDirection: "column",
+  },
+  featureNum: { 
+    fontSize: "0.75rem", 
+    color: "var(--accent)", 
+    fontWeight: 700, 
+    letterSpacing: "1px", 
+    marginBottom: "10px" 
+  },
+  featureTitle: { 
+    color: "var(--white)", 
+    fontWeight: 600, 
+    marginBottom: "8px", 
+    fontSize: "0.95rem" 
+  },
+  featureDesc: { 
+    color: "var(--text-muted)", 
+    fontSize: "0.86rem", 
+    lineHeight: 1.65 
+  },
+  steps: { 
+    display: "grid", 
+    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", 
+    gap: "24px" 
+  },
+  step: { 
+    textAlign: "center", 
+    padding: "28px 20px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
   stepNum: {
-    width: "48px", height: "48px", borderRadius: "50%",
-    background: "var(--accent)", color: "var(--black)",
-    fontWeight: 800, fontSize: "1.2rem",
-    display: "flex", alignItems: "center", justifyContent: "center",
-    margin: "0 auto 16px",
+    width: "48px", 
+    height: "48px", 
+    borderRadius: "50%",
+    background: "var(--accent)", 
+    color: "var(--black)",
+    fontWeight: 800, 
+    fontSize: "1.2rem",
+    display: "flex", 
+    alignItems: "center", 
+    justifyContent: "center",
+    marginBottom: "16px",
+    flexShrink: 0,
   },
 };

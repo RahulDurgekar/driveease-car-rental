@@ -8,14 +8,14 @@ export default function Footer() {
           <h3 style={styles.logo}>DriveEase</h3>
           <p style={styles.tagline}>Your journey, your way.</p>
         </div>
-        <div style={styles.col}>
+        <div style={styles.col} className="footer-quick-links">
           <h4 style={styles.colTitle}>Quick Links</h4>
           <Link to="/" style={styles.link}>Home</Link>
           <Link to="/cars" style={styles.link}>Browse Cars</Link>
           <Link to="/about" style={styles.link}>About Us</Link>
           <Link to="/contact" style={styles.link}>Contact</Link>
         </div>
-        <div style={styles.col}>
+        <div style={styles.col} className="footer-account">
           <h4 style={styles.colTitle}>Account</h4>
           <Link to="/login" style={styles.link}>Login</Link>
           <Link to="/signup" style={styles.link}>Sign Up</Link>
@@ -40,7 +40,14 @@ export default function Footer() {
 
 const styles = {
   footer: { background: "var(--dark)", borderTop: "1px solid var(--border)", marginTop: "60px" },
-  inner: { maxWidth: "1200px", margin: "0 auto", padding: "48px 20px 24px", display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "32px" },
+  inner: { 
+    maxWidth: "1200px", 
+    margin: "0 auto", 
+    padding: "48px 20px 24px", 
+    display: "grid", 
+    gridTemplateColumns: "2fr 1fr 1fr 1fr", 
+    gap: "32px" 
+  },
   brand: {},
   logo: { fontSize: "1.25rem", fontWeight: 700, color: "var(--accent)", marginBottom: "8px", letterSpacing: "0.3px" },
   tagline: { color: "var(--text-muted)", fontSize: "0.88rem" },
