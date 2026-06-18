@@ -9,6 +9,7 @@ import Contact from "./pages/Contact";
 import CarListing from "./pages/CarListing";
 import CarDetail from "./pages/CarDetail";
 import PostCar from "./pages/PostCar";
+import EditCar from "./pages/EditCar";
 import MyGarage from "./pages/MyGarage";
 import MyBookings from "./pages/MyBookings";
 import Profile from "./pages/Profile";
@@ -33,6 +34,7 @@ function AppRoutes() {
         <Route path="/cars" element={<CarListing />} />
         <Route path="/cars/:id" element={<CarDetail />} />
         <Route path="/post-car" element={<PrivateRoute><PostCar /></PrivateRoute>} />
+        <Route path="/edit-car/:id" element={<PrivateRoute><EditCar /></PrivateRoute>} />
         <Route path="/my-garage" element={<PrivateRoute><MyGarage /></PrivateRoute>} />
         <Route path="/my-bookings" element={<PrivateRoute><MyBookings /></PrivateRoute>} />
         <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />

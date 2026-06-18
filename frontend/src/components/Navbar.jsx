@@ -46,6 +46,7 @@ export default function Navbar() {
         style={styles.mobileMenuBtn}
         className="mobile-menu-btn"
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        aria-label="Toggle menu"
       >
         ☰
       </button>
@@ -67,7 +68,7 @@ export default function Navbar() {
         </div>
       )}
 
-      <div style={styles.actions}>
+      <div style={styles.actions} className="actions">
         {user ? (
           <>
             <Link
@@ -84,7 +85,7 @@ export default function Navbar() {
             </Link>
 
             <div style={styles.dropdown}>
-              <button style={styles.avatarBtn} onClick={() => setMenuOpen(!menuOpen)}>
+              <button style={styles.avatarBtn} onClick={() => setMenuOpen(!menuOpen)} aria-label="User menu">
                 {user.avatar ? (
                   <img 
                     src={user.avatar.startsWith("http") || user.avatar.startsWith("data:") ? user.avatar : `${API_BASE_URL}${user.avatar}`} 

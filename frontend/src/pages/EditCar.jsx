@@ -1,9 +1,10 @@
-import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import api from "../utils/api";
 
-export default function PostCar() {
+export default function EditCar() {
+  const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
   const [form, setForm] = useState({
@@ -15,22 +16,41 @@ export default function PostCar() {
   const [error, setError] = useState("");
   const [priceError, setPriceError] = useState("");
   const [loading, setLoading] = useState(false);
-  const fileRef = useRef();
+  const [fetchLoading, setFetchLoading] = useState(true);
 
   useEffect(() => {
-    if (user) {
-      setForm(prev => ({
-        ...prev,
-        city: user.city || "",
-        contactPhone: user.phone || "",
-        contactEmail: user.email || "",
-      }));
-    }
-  }, [user]);
+    const fetchCar = async () => {
+      try {
+        const { data } = await api.get(`/cars/${id}`);
+        if (data.owner._id !== user._id) {
+          navigate("/my-garage");
+          return;
+        }
+        setForm({
+          title: data.title,
+          brand: data.brand,
+          model: data.model,
+          year: data.year,
+          city: data.city,
+          pricePerDay: data.pricePerDay,
+          description: data.description || "",
+          fuelType: data.fuelType,
+          transmission: data.transmission,
+          seats: data.seats,
+          contactPhone: data.contactPhone,
+          contactEmail: data.contactEmail,
+        });
+      } catch (err) {
+        setError("Failed to load car details");
+      } finally {
+        setFetchLoading(false);
+      }
+    };
+    fetchCar();
+  }, [id, user, navigate]);
 
   const set = (key, value) => {
     setForm(prev => ({ ...prev, [key]: value }));
-    // Validate price in real-time
     if (key === 'pricePerDay') {
       if (value && (parseFloat(value) <= 0 || parseFloat(value) < 0)) {
         setPriceError("Price must be a positive value. Enter a valid amount.");
@@ -45,13 +65,6 @@ export default function PostCar() {
     setError("");
     setPriceError("");
     
-    // Check if user is owner
-    if (user.role !== 'owner') {
-      setError("You must set your profile role to 'Owner' before posting a car. Please update your profile.");
-      return;
-    }
-    
-    // Validate price
     if (!form.pricePerDay || form.pricePerDay <= 0) {
       setPriceError("Price cannot be negative or zero. Please enter a valid daily rental price.");
       return;
@@ -59,23 +72,20 @@ export default function PostCar() {
     
     setLoading(true);
     try {
-      const formData = new FormData();
-      Object.entries(form).forEach(([k, v]) => formData.append(k, v));
-      if (fileRef.current?.files.length) {
-        Array.from(fileRef.current.files).forEach(f => formData.append("images", f));
-      }
-      await api.post("/cars", formData, { headers: { "Content-Type": "multipart/form-data" } });
+      await api.put(`/cars/${id}`, form);
       navigate("/my-garage");
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to post car");
+      setError(err.response?.data?.message || "Failed to update car");
     } finally {
       setLoading(false);
     }
   };
 
+  if (fetchLoading) return <div style={{ textAlign: "center", padding: "60px", color: "var(--text-muted)" }}>Loading...</div>;
+
   return (
     <div className="page-container" style={{ maxWidth: "720px" }}>
-      <h2 className="section-title">Post Your <span>Car</span></h2>
+      <h2 className="section-title">Edit Your <span>Car</span></h2>
       <div className="divider" />
       <form onSubmit={handleSubmit} style={styles.form}>
         <div style={styles.row} className="form-row">
@@ -153,13 +163,15 @@ export default function PostCar() {
             <input type="email" placeholder="you@example.com" value={form.contactEmail} onChange={(e) => set("contactEmail", e.target.value)} required />
           </div>
         </div>
-        <div className="form-group">
-          <label>Car Images (up to 6)</label>
-          <input type="file" ref={fileRef} accept="image/*" multiple />
-          <small style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>Select multiple images from your device</small>
-        </div>
         {error && <p className="error-msg">{error}</p>}
-        <button type="submit" className="btn-primary" disabled={loading}>{loading ? "Posting..." : "Post Car"}</button>
+        <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
+          <button type="button" className="btn-outline" onClick={() => navigate("/my-garage")} style={{ flex: 1 }}>
+            Cancel
+          </button>
+          <button type="submit" className="btn-primary" disabled={loading} style={{ flex: 1 }}>
+            {loading ? "Updating..." : "Update Car"}
+          </button>
+        </div>
       </form>
     </div>
   );

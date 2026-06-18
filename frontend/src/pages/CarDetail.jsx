@@ -86,6 +86,11 @@ export default function CarDetail() {
     setShowConfirmModal(false);
   };
 
+  const handleEditTimes = () => {
+    setShowConfirmModal(false);
+    // User can now edit times in the form
+  };
+
   const handlePaymentSuccess = async (transactionId) => {
     setProcessingPayment(true);
     try {
@@ -141,6 +146,7 @@ export default function CarDetail() {
         car={car}
         onConfirm={handleConfirmBooking}
         onCancel={handleCancelConfirmation}
+        onEdit={handleEditTimes}
       />
       
       <PaymentModal

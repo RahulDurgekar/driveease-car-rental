@@ -1,4 +1,4 @@
-export default function BookingConfirmModal({ isOpen, booking, car, onConfirm, onCancel }) {
+export default function BookingConfirmModal({ isOpen, booking, car, onConfirm, onCancel, onEdit }) {
   if (!isOpen) return null;
 
   const { startDate, endDate, startTime, endTime } = booking;
@@ -53,6 +53,9 @@ export default function BookingConfirmModal({ isOpen, booking, car, onConfirm, o
         <div style={styles.buttons}>
           <button className="btn-outline" onClick={onCancel} style={{ flex: 1 }}>
             Cancel
+          </button>
+          <button className="btn-outline" onClick={onEdit} style={{ flex: 1 }}>
+            Edit Times
           </button>
           <button className="btn-primary" onClick={onConfirm} style={{ flex: 1 }}>
             Confirm & Pay

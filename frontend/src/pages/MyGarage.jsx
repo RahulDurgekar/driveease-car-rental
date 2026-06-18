@@ -73,6 +73,9 @@ export default function MyGarage() {
                   >
                     {car.available ? "Mark Unavailable" : "Mark Available"}
                   </button>
+                  <Link to={`/edit-car/${car._id}`}>
+                    <button className="btn-outline" style={{ padding: "6px 12px", fontSize: "0.8rem" }}>Edit</button>
+                  </Link>
                   <Link to={`/cars/${car._id}`}>
                     <button className="btn-outline" style={{ padding: "6px 12px", fontSize: "0.8rem" }}>View</button>
                   </Link>
