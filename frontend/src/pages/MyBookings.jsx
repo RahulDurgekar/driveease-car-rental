@@ -41,11 +41,12 @@ export default function MyBookings() {
       ) : (
         <div style={styles.list}>
           {bookings.map((b) => (
-            <div key={b._id} style={styles.card}>
+            <div key={b._id} style={styles.card} className="mybookings-card">
               <img
                 src={getImageUrl(b.car?.images?.[0])}
                 alt=""
                 style={styles.img}
+                className="mybookings-img"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=200";
@@ -79,19 +80,19 @@ export default function MyBookings() {
                   </span>
                 </p>
               </div>
-              <div style={styles.right}>
+              <div style={styles.right} className="mybookings-right">
                 <span className={`badge ${b.status === "confirmed" ? "badge-green" : b.status === "cancelled" ? "badge-red" : "badge-yellow"}`}>
                   {b.status}
                 </span>
-                <Link to={`/cars/${b.car?._id}`}>
-                  <button className="btn-outline" style={{ padding: "6px 14px", fontSize: "0.8rem", marginTop: "10px" }}>
+                <Link to={`/cars/${b.car?._id}`} style={{ width: '100%' }}>
+                  <button className="btn-outline" style={{ padding: "6px 14px", fontSize: "0.8rem", width: '100%' }}>
                     View Car
                   </button>
                 </Link>
                 {b.status === "pending" && (
                   <button
                     className="btn-danger"
-                    style={{ padding: "6px 14px", fontSize: "0.8rem", marginTop: "8px" }}
+                    style={{ padding: "6px 14px", fontSize: "0.8rem", width: '100%' }}
                     onClick={() => cancelBooking(b._id)}
                   >
                     Cancel
@@ -107,21 +108,88 @@ export default function MyBookings() {
 }
 
 const styles = {
-  list: { display: "flex", flexDirection: "column", gap: "14px" },
-  card: {
-    background: "var(--card-bg)", border: "1px solid var(--border)",
-    borderRadius: "8px", display: "flex", gap: "0", overflow: "hidden",
+  list: { 
+    display: "flex", 
+    flexDirection: "column", 
+    gap: "14px" 
   },
-  img: { width: "155px", height: "115px", objectFit: "cover", flexShrink: 0 },
-  info: { flex: 1, padding: "14px 16px", display: "flex", flexDirection: "column", gap: "4px" },
-  carName: { fontWeight: 600, color: "var(--white)", fontSize: "0.95rem" },
-  meta: { color: "var(--text-muted)", fontSize: "0.8rem" },
-  dates: { color: "var(--text-muted)", fontSize: "0.8rem" },
-  price: { color: "var(--accent)", fontWeight: 700, fontSize: "0.9rem" },
-  contactRow: { display: "flex", gap: "16px", marginTop: "2px" },
-  contactItem: { color: "var(--text-muted)", fontSize: "0.76rem" },
-  ownerAddress: { fontSize: "0.8rem", marginTop: "6px", paddingTop: "6px", borderTop: "1px solid var(--border)" },
-  transactionId: { fontSize: "0.8rem", marginTop: "6px", paddingTop: "6px", borderTop: "1px solid var(--border)" },
-  right: { padding: "14px", display: "flex", flexDirection: "column", alignItems: "flex-end" },
-  empty: { textAlign: "center", padding: "60px 0" },
+  card: {
+    background: "var(--card-bg)", 
+    border: "1px solid var(--border)",
+    borderRadius: "8px", 
+    display: "flex", 
+    flexWrap: "wrap",
+    gap: "0", 
+    overflow: "hidden",
+  },
+  img: { 
+    width: "155px", 
+    height: "115px", 
+    objectFit: "cover", 
+    flexShrink: 0 
+  },
+  info: { 
+    flex: 1, 
+    minWidth: "250px",
+    padding: "14px 16px", 
+    display: "flex", 
+    flexDirection: "column", 
+    gap: "4px" 
+  },
+  carName: { 
+    fontWeight: 600, 
+    color: "var(--white)", 
+    fontSize: "0.95rem" 
+  },
+  meta: { 
+    color: "var(--text-muted)", 
+    fontSize: "0.8rem" 
+  },
+  dates: { 
+    color: "var(--text-muted)", 
+    fontSize: "0.8rem",
+    wordBreak: "break-word",
+  },
+  price: { 
+    color: "var(--accent)", 
+    fontWeight: 700, 
+    fontSize: "0.9rem" 
+  },
+  contactRow: { 
+    display: "flex", 
+    flexWrap: "wrap",
+    gap: "8px 16px", 
+    marginTop: "2px" 
+  },
+  contactItem: { 
+    color: "var(--text-muted)", 
+    fontSize: "0.76rem",
+    wordBreak: "break-word",
+  },
+  ownerAddress: { 
+    fontSize: "0.8rem", 
+    marginTop: "6px", 
+    paddingTop: "6px", 
+    borderTop: "1px solid var(--border)",
+    wordBreak: "break-word",
+  },
+  transactionId: { 
+    fontSize: "0.8rem", 
+    marginTop: "6px", 
+    paddingTop: "6px", 
+    borderTop: "1px solid var(--border)",
+    wordBreak: "break-all",
+  },
+  right: { 
+    padding: "14px", 
+    display: "flex", 
+    flexDirection: "column", 
+    alignItems: "flex-end",
+    gap: "8px",
+    minWidth: "120px",
+  },
+  empty: { 
+    textAlign: "center", 
+    padding: "60px 0" 
+  },
 };

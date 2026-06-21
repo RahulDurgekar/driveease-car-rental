@@ -90,6 +90,24 @@
   }
 }
 
+/* MyBookings Card Responsive */
+@media (max-width: 768px) {
+  .page-container .mybookings-card {
+    flex-direction: column !important;
+  }
+  .page-container .mybookings-img {
+    width: 100% !important;
+    height: 180px !important;
+  }
+  .page-container .mybookings-right {
+    flex-direction: row !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+  }
+}
+
 /* About Page - Mobile Reordering */
 @media (max-width: 768px) {
   .about-mission-grid {

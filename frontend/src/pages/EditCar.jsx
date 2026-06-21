@@ -115,12 +115,28 @@ export default function EditCar() {
               max={new Date().getFullYear() + 1} 
               placeholder="2020" 
               value={form.year} 
-              onChange={(e) => {
-                const val = parseInt(e.target.value);
-                if (e.target.value === '' || (val >= 1900 && val <= new Date().getFullYear() + 1)) {
-                  set("year", e.target.value);
+              onChange={(e) => set("year", e.target.value)} 
+              onKeyDown={(e) => {
+                // Allow navigation keys, backspace, delete, tab
+                if (['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+                  return;
                 }
-              }} 
+                // Allow Ctrl/Cmd shortcuts
+                if (e.ctrlKey || e.metaKey) {
+                  return;
+                }
+                // Block non-numeric keys except numbers
+                if (!/^[0-9]$/.test(e.key)) {
+                  e.preventDefault();
+                }
+              }}
+              onBlur={(e) => {
+                // Validate on blur
+                const val = parseInt(e.target.value);
+                if (e.target.value !== '' && (val < 1900 || val > new Date().getFullYear() + 1)) {
+                  set("year", "");
+                }
+              }}
               required 
             />
           </div>
