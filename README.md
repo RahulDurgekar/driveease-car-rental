@@ -9,6 +9,7 @@ A full-stack MERN car rental application where users can list, browse, and book 
 - **Database**: MongoDB
 - **Authentication**: JWT + bcryptjs
 
+Project Live Link: https://driveease-frontend.vercel.app/
 ## Features
 
 - User authentication (signup/login with JWT)
